@@ -1,8 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using LaunchDarkly.Sdk.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
+
+// Configure LaunchDarkly
+var ldSdkKey = builder.Configuration["LaunchDarkly:SdkKey"] ?? "sdk-key-placeholder";
+builder.Services.AddSingleton<LdClient>(provider => new LdClient(ldSdkKey));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -15,7 +20,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", (LdClient ldClient) =>
+{
+    var context = LaunchDarkly.Sdk.Context.New("anonymous-user");
+    var showNewGreeting = ldClient.BoolVariation("show-new-greeting", context, false);
+    
+    return showNewGreeting ? "Hello from LaunchDarkly!" : "Hello World!";
+});
 
 // <snippet_grp>
 app.MapGet("/todoitems", async (TodoDb db) =>

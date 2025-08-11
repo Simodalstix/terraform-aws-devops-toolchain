@@ -52,6 +52,7 @@ resource "aws_instance" "sonarqube" {
   subnet_id              = aws_subnet.public[0].id
   vpc_security_group_ids = [aws_security_group.sonarqube.id]
   key_name               = var.key_name
+  iam_instance_profile   = aws_iam_instance_profile.sonarqube.name
 
   user_data = <<-EOF
               #!/bin/bash
