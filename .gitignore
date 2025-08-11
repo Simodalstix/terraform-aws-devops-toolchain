@@ -1,0 +1,36 @@
+# .NET Core
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+*.suo
+*.pdb
+*.log
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Playwright
+playwright-report/
+test-results/
+
+# IDE specific
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
