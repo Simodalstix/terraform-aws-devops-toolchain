@@ -30,13 +30,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore terraform-aws-devops-toolchain.sln
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build terraform-aws-devops-toolchain.sln --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test --no-build --configuration Release --verbosity normal
+        run: dotnet test terraform-aws-devops-toolchain.sln --no-build --configuration Release --verbosity normal
 
       - name: Install Playwright dependencies
         working-directory: ./tests
@@ -89,7 +89,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           dotnet sonarscanner begin /k:"devops-toolchain" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
-          dotnet build --configuration Release
+          dotnet build terraform-aws-devops-toolchain.sln --configuration Release
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
   deploy:
@@ -113,7 +113,7 @@ jobs:
           aws-region: ap-southeast-2
 
       - name: Build application
-        run: dotnet publish --configuration Release --output ./publish
+        run: dotnet publish terraform-aws-devops-toolchain.sln --configuration Release --output ./publish
 
       - name: Deploy to AWS
         run: |
