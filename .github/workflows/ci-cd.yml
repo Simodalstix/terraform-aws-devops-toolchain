@@ -38,6 +38,11 @@ jobs:
       - name: Test
         run: dotnet test terraform-aws-devops-toolchain.sln --no-build --configuration Release --verbosity normal
 
+      - name: Create .env file
+        working-directory: ./tests
+        run: |
+          echo "LAUNCHDARKLY_SDK_KEY=${{ secrets.LAUNCHDARKLY_SDK_KEY }}" > .env
+
       - name: Install Playwright dependencies
         working-directory: ./tests
         run: |
@@ -46,8 +51,6 @@ jobs:
 
       - name: Run Playwright tests
         working-directory: ./tests
-        env:
-          LAUNCHDARKLY_SDK_KEY: ${{ secrets.LAUNCHDARKLY_SDK_KEY }}
         run: npm test
 
       - name: Upload Playwright report

@@ -6,7 +6,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
 
 // Configure LaunchDarkly
-var ldSdkKey = builder.Configuration["LaunchDarkly:SdkKey"] ?? "sdk-key-placeholder";
+var ldSdkKey = builder.Configuration["LaunchDarkly:SdkKey"];
+if (string.IsNullOrWhiteSpace(ldSdkKey))
+{
+    ldSdkKey = Environment.GetEnvironmentVariable("LAUNCHDARKLY_SDK_KEY") ?? "sdk-key-placeholder";
+}
 builder.Services.AddSingleton<LdClient>(provider => new LdClient(ldSdkKey));
 
 builder.Services.AddEndpointsApiExplorer();
