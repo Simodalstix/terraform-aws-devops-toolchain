@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using LaunchDarkly.Sdk.Server;
+using DevOpsToolchain;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -103,17 +104,20 @@ app.MapDelete("/todoitems/{id}", async (int id, TodoDb db) =>
 
 app.Run();
 
-class Todo
+namespace DevOpsToolchain
 {
-    public int Id { get; set; }
-    public string? Name { get; set; }
-    public bool IsComplete { get; set; }
-}
+    class Todo
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public bool IsComplete { get; set; }
+    }
 
-class TodoDb : DbContext
-{
-    public TodoDb(DbContextOptions<TodoDb> options)
-        : base(options) { }
+    class TodoDb : DbContext
+    {
+        public TodoDb(DbContextOptions<TodoDb> options)
+            : base(options) { }
 
-    public DbSet<Todo> Todos => Set<Todo>();
+        public DbSet<Todo> Todos => Set<Todo>();
+    }
 }
