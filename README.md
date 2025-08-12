@@ -1,6 +1,7 @@
 # Developer Tooling Integration Lab
 
 A comprehensive DevOps toolchain demonstrating the integration of SonarQube, LaunchDarkly, and Playwright with a .NET 8 minimal API using Terraform, AWS, and GitHub Actions.
+![Project Screenshot](screenshots/sonarqube.jpg)
 
 ## Project Overview
 
