@@ -48,18 +48,22 @@ terraform apply
 
 #### SonarQube Setup
 
-1. Access SonarQube at the IP address from Terraform output
+1. Access SonarQube at the IP address from Terraform output (port 9000)
 2. Default credentials: `admin/admin` (change immediately)
 3. Create a new project and generate a token
 4. Add the token to GitHub Secrets as `SONAR_TOKEN`
 5. Add SonarQube URL to GitHub Secrets as `SONAR_HOST_URL`
+
+Note: SonarQube may take a few minutes to start up completely after the instance is provisioned. If you can't access it immediately, wait a few minutes and try again.
 
 #### LaunchDarkly Setup
 
 1. Create a LaunchDarkly account
 2. Create a new project and environment
 3. Create a feature flag named `show-new-greeting`
-4. Add your SDK key to GitHub Secrets as `LAUNCHDARKLY_SDK_KEY`
+4. Get your SDK key from the LaunchDarkly dashboard
+5. Add your SDK key to `appsettings.json` in the `LaunchDarkly.SdkKey` field
+6. Add your SDK key to GitHub Secrets as `LAUNCHDARKLY_SDK_KEY`
 
 ### 3. GitHub Actions Configuration
 

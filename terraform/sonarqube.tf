@@ -67,6 +67,13 @@ resource "aws_instance" "sonarqube" {
               mkdir /var/sonarqube
               mount /dev/sdh /var/sonarqube
               
+              # Wait for the volume to be mounted
+              sleep 10
+              
+              # Create necessary directories with correct permissions for SonarQube
+              mkdir -p /var/sonarqube/data /var/sonarqube/logs /var/sonarqube/extensions
+              chown -R 1000:1000 /var/sonarqube
+              
               # SonarQube requires higher vm.max_map_count
               sysctl -w vm.max_map_count=262144
               
@@ -76,7 +83,7 @@ resource "aws_instance" "sonarqube" {
                 -v /var/sonarqube/data:/opt/sonarqube/data \
                 -v /var/sonarqube/logs:/opt/sonarqube/logs \
                 -v /var/sonarqube/extensions:/opt/sonarqube/extensions \
-                sonarqube:lts-community
+                sonarqube:lts
               EOF
 
   tags = {
